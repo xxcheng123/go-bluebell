@@ -2,10 +2,11 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	"go-generator/logic"
 	"go-generator/models"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
 )
 
@@ -36,7 +37,14 @@ func SignUpHandler(ctx *gin.Context) {
 			return
 		}
 	*/
-	logic.SignUp(p)
+	if err := logic.SignUp(p); err != nil {
+		zap.L().Info("SignUp with Failed", zap.Error(err))
+		ctx.JSON(200, gin.H{
+			"code":    models.ResponseCodeRegisterFailed,
+			"message": models.ResponseMessageRegisterFailed,
+		})
+		return
+	}
 	zap.L().Info("SignUp with Success")
 	ctx.JSON(200, gin.H{
 		"code":    models.ResponseCodeSuccess,
