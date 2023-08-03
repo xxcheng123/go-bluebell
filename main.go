@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"go-generator/dao/mysql"
 	"go-generator/dao/redis"
 	"go-generator/logger"
@@ -16,6 +15,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/gin-gonic/gin"
 
 	"go.uber.org/zap"
 )
@@ -48,7 +49,7 @@ func main() {
 		return
 	}
 	//初始化日志
-	if err := logger.Init(settings.Config.LogConfig); err != nil {
+	if err := logger.Init(settings.Config.LogConfig, settings.Config.Mode); err != nil {
 		fmt.Printf("init logger failed, err:%#v\n", err)
 		return
 	}

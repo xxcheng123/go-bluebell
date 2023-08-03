@@ -2,14 +2,13 @@ package logic
 
 import (
 	"errors"
-	"fmt"
 	"go-generator/dao/mysql"
 	"go-generator/models"
 	"go-generator/pkg/snowflake"
 )
 
 func SignUp(p *models.ParamSignUp) (err error) {
-	fmt.Println("处理用户注册...")
+	//fmt.Println("处理用户注册...")
 	//判断用户是否存在
 	if isExist, err := mysql.QueryUserExistByUsername(p.Username); err != nil {
 		return err
