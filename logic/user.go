@@ -1,19 +1,16 @@
 package logic
 
 import (
-	"errors"
 	"go-generator/dao/mysql"
 	"go-generator/models"
 	"go-generator/pkg/snowflake"
 )
 
-func SignUp(p *models.ParamSignUp) (err error) {
+func SignUp(p *models.ParamSignUp) error {
 	//fmt.Println("处理用户注册...")
 	//判断用户是否存在
-	if isExist, err := mysql.QueryUserExistByUsername(p.Username); err != nil {
+	if err := mysql.QueryUserExistByUsername(p.Username); err != nil {
 		return err
-	} else if isExist {
-		return errors.New("用户名已存在")
 	}
 	//生成UID
 	UID := snowflake.GenID()
@@ -24,4 +21,12 @@ func SignUp(p *models.ParamSignUp) (err error) {
 		Password: p.Password,
 	}
 	return mysql.InsertUser(user)
+}
+
+func Login(p *models.ParamLogin) error {
+	err := mysql.CompareUserPassword(p.Username, p.Password)
+	if err != nil {
+		return err
+	}
+	return nil
 }

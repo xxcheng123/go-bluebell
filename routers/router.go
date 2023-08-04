@@ -15,7 +15,8 @@ func Setup(cfg *settings.AppConfig) *gin.Engine {
 	controllers.InitTrans()
 	//用户注册
 	r.POST("/signup.do", controllers.SignUpHandler)
-
+	//用户登录
+	r.POST("/login.do", controllers.LoginHandler)
 	r.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
 			"code": 404,
